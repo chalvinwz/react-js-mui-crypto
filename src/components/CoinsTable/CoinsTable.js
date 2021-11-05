@@ -4,8 +4,9 @@ import { useCryptoState } from '../../CryptoContext';
 import { CoinList } from '../../utils/api';
 import { useQuery } from 'react-query';
 import { useHistory } from 'react-router-dom';
-import LoadingSkeleton from '../LoadingSkeleton';
 import { convertPrice } from '../../utils/helper';
+import LoadingSkeleton from '../LoadingSkeleton';
+
 import {
 	Container,
 	Stack,
@@ -18,16 +19,18 @@ import {
 	TextField,
 	Typography,
 	Chip,
+	Pagination,
 } from '@mui/material';
 
 const CoinsTable = () => {
 	const { currency, symbol } = useCryptoState();
 	const [searchTerm, setSearchTerm] = useState('');
+	const [page, setPage] = useState(1);
 	const history = useHistory();
 
-	const fetchCoins = async (currency) => {
+	const fetchCoins = async (currency, page) => {
 		try {
-			const { data } = await axios.get(CoinList(currency));
+			const { data } = await axios.get(CoinList(currency, page));
 			return data;
 		} catch (err) {
 			console.log(err);
@@ -35,9 +38,9 @@ const CoinsTable = () => {
 	};
 
 	const { data, isLoading } = useQuery(
-		['listCoins', currency],
-		() => fetchCoins(currency)
-		// { refetchInterval: 1000, staleTime: 3000 }
+		['listCoins', currency, page],
+		() => fetchCoins(currency, page),
+		{ refetchInterval: 10000, staleTime: 3000 }
 	);
 
 	const searchResult = data?.filter((coin) => {
@@ -85,15 +88,14 @@ const CoinsTable = () => {
 								const profit = coin.price_change_percentage_24h > 0;
 
 								return (
-									<TableRow key={coin.id}>
+									<TableRow
+										key={coin.id}
+										onClick={() => history.push(`/coins/${coin.id}`)}
+										hover={true}
+										sx={{ cursor: 'pointer' }}
+									>
 										<TableCell>
-											<Stack
-												direction='row'
-												alignItems='center'
-												spacing={2}
-												onClick={() => history.push(`/coins/${coin.id}`)}
-												sx={{ maxWidth: 120, cursor: 'pointer' }}
-											>
+											<Stack direction='row' alignItems='center' spacing={2}>
 												<img src={coin.image} alt={coin.name} height='50' />
 												<Stack>
 													<Chip
@@ -101,7 +103,6 @@ const CoinsTable = () => {
 														size='small'
 														sx={{
 															textTransform: 'uppercase',
-															cursor: 'pointer',
 														}}
 													/>
 													<Typography variant='subtitle2'>
@@ -132,6 +133,14 @@ const CoinsTable = () => {
 					</Table>
 				</TableContainer>
 			)}
+			<Pagination
+				count={100}
+				onChange={(_, value) => {
+					setPage(value);
+					window.scroll(0, 450);
+				}}
+				sx={{ display: 'flex', justifyContent: 'center', my: 3 }}
+			/>
 		</Container>
 	);
 };

@@ -1,15 +1,14 @@
 import { useCryptoState } from '../../CryptoContext';
-
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Box, Chip, Stack, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
-
 import { TrendingCoins } from '../../utils/api';
 import { convertPrice } from '../../utils/helper';
 
 import LoadingSkeleton from '../LoadingSkeleton';
+
+import { styled } from '@mui/material/styles';
+import { Box, Chip, Stack, Typography } from '@mui/material';
 
 const Image = styled(`img`)(({ theme }) => ({
 	height: 70,

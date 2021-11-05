@@ -1,5 +1,6 @@
 import { useHistory } from 'react-router-dom';
 import { useCryptoState } from '../CryptoContext';
+
 import {
 	AppBar,
 	Toolbar,
@@ -17,8 +18,8 @@ const Navbar = () => {
 
 	return (
 		<AppBar
-			position='static'
-			color='transparent'
+			position='sticky'
+			color='inherit'
 			sx={{ borderBottom: 0.5, borderColor: 'divider' }}
 		>
 			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>

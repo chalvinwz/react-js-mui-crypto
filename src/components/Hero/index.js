@@ -1,5 +1,6 @@
-import Carousel from './Carousel';
+import Carousel from './TopCoins';
 import HeroImage from '../../assets/hero-image.jpeg';
+
 import { Container, Box, Typography } from '@mui/material';
 
 const Hero = () => {
