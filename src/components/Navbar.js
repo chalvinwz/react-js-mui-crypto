@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCryptoState } from '../CryptoContext';
 
 import {
@@ -14,7 +14,7 @@ import {
 const Navbar = () => {
 	const { currency, setCurrency } = useCryptoState();
 
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	return (
 		<AppBar
@@ -27,7 +27,7 @@ const Navbar = () => {
 					variant='h6'
 					components='h1'
 					sx={{ fontWeight: 'bold', cursor: 'pointer' }}
-					onClick={() => history.push('/')}
+					onClick={() => navigate('/')}
 				>
 					Crypto Market
 				</Typography>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useCryptoState } from '../../CryptoContext';
 import { CoinList } from '../../utils/api';
 import { useQuery } from 'react-query';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { convertPrice } from '../../utils/helper';
 import LoadingSkeleton from '../LoadingSkeleton';
 
@@ -26,7 +26,7 @@ const CoinsTable = () => {
 	const { currency, symbol } = useCryptoState();
 	const [searchTerm, setSearchTerm] = useState('');
 	const [page, setPage] = useState(1);
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	const fetchCoins = async (currency, page) => {
 		try {
@@ -90,7 +90,7 @@ const CoinsTable = () => {
 								return (
 									<TableRow
 										key={coin.id}
-										onClick={() => history.push(`/coins/${coin.id}`)}
+										onClick={() => navigate(`/coins/${coin.id}`)}
 										hover={true}
 										sx={{ cursor: 'pointer' }}
 									>
